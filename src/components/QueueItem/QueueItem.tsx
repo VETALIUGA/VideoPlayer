@@ -4,7 +4,7 @@ const logo = './src/components/QueueItem/media/icons/video-default.svg';
 
 function QueueItem(props) {
     return (
-        <div onClick={()=> {props.clickHandler(props.param)}} className="button queue-item__button">
+        <div onClick={()=> {props.clickHandler(props.param)}} className={`button queue-item__button ${(props.param.index == props.current)? 'active' : ''}`}>
             <div className="queue-item__content">
                 <img src={logo} className="queue-item__thumbnail" />
                 <h3 className="queue-item__source">{props.param.src.split('/').splice(-1).join('/')}</h3>

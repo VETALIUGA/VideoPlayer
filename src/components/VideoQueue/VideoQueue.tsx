@@ -9,7 +9,10 @@ function VideoQueue(props) {
                 props.scenarios.map((item, index) => {
                     return (
                         <li className="video-queue__list-item" key={index}>
-                            <QueueItem clickHandler={props.clickHandler} param={item} />
+                            <QueueItem 
+                            clickHandler={props.clickHandler} 
+                            param={item}
+                            current={props.current} />
                         </li>
                     )
                 })

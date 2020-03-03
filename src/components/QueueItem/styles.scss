@@ -1,6 +1,11 @@
 .queue-item {
     &__button {
         margin-bottom: 2px;
+        transition: .3s;
+        &.active {
+            box-shadow: 0 0 0 2px #7775E1;
+            background-color: #514FA7;
+        }
     }
     &__content {
         display: grid;
