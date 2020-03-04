@@ -1,6 +1,7 @@
 import * as React from "react";
 import './styles.scss';
 const logo = './src/components/QueueItem/media/icons/video-default.svg';
+const deleteIcon = './src/components/QueueItem/media/icons/bin.svg'
 
 function QueueItem(props) {
     return (
@@ -13,6 +14,9 @@ function QueueItem(props) {
                     <span className="queue-item__parameters-item">sound level: {props.param.soundLevel}</span>
                     <span className="queue-item__parameters-item">duration: {props.param.duration}</span>
                 </div>
+                <button onClick={()=>{props.deleteHandler(props.param)}} className="button queue-item__delete">
+                    <img src={deleteIcon} alt="" className="queue-item__delete-icon"/>
+                </button>
             </div>
         </div>
     )

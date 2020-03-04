@@ -2,6 +2,7 @@
     &__button {
         margin-bottom: 2px;
         transition: .3s;
+        padding: 5px 10px;
         &.active {
             box-shadow: 0 0 0 2px #7775E1;
             background-color: #514FA7;
@@ -9,7 +10,7 @@
     }
     &__content {
         display: grid;
-        grid-template-columns: 30px 1fr 1fr;
+        grid-template-columns: 30px 1fr 1fr auto;
         align-items: center;
         gap: 15px;
     }
@@ -42,5 +43,18 @@
     &__thumbnail {
         width: 100%;
         display: block;
+    }
+    &__delete {
+        border-radius: 50px;
+        padding: 5px;
+        &-icon {
+            width: 100%;
+            max-width: 20px;
+            display: block;
+        }
+        &:hover {
+            box-shadow: 0 0 0 2px #7775E1;
+            background-color: darkred;
+        }
     }
 }

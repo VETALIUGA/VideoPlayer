@@ -11,6 +11,7 @@ function VideoQueue(props) {
                         <li className="video-queue__list-item" key={index}>
                             <QueueItem 
                             clickHandler={props.clickHandler} 
+                            deleteHandler={props.deleteHandler}
                             param={item}
                             current={props.current} />
                         </li>

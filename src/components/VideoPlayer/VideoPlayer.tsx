@@ -38,7 +38,7 @@ class VideoPlayer extends React.Component<MyProps, MyState> {
         this.state = {
             scenarios: [
                 {
-                    src: './videos/business.mp4',
+                    src: './src/videos/business.mp4',
                     startPosition: 0,
                     soundLevel: 0,
                     duration: 0,
@@ -46,7 +46,7 @@ class VideoPlayer extends React.Component<MyProps, MyState> {
                 }
             ],
             currentVideo: {
-                src: './videos/business.mp4',
+                src: './src/videos/business.mp4',
                 startPosition: 0,
                 soundLevel: 0,
                 duration: 0,
@@ -74,11 +74,14 @@ class VideoPlayer extends React.Component<MyProps, MyState> {
         await this.setState({
             currentVideo: {
                 ...item,
+            },
+            playerState: {
+                playing: true
             }
         });
         await this.player.seekTo(this.state.currentVideo.startPosition);
-        console.log(this.state.currentVideo.startPosition);
-        console.log(this.state.currentVideo.index);
+        // console.log(this.state.currentVideo.startPosition);
+        // console.log(this.state.currentVideo.index);
 
     }
 
@@ -106,6 +109,13 @@ class VideoPlayer extends React.Component<MyProps, MyState> {
                 }
             });
             await this.player.seekTo(this.state.currentVideo.startPosition);
+        } else {
+            await this.setState({
+                currentVideo: {
+                    ...this.state.scenarios[0]
+                }
+            });
+            await this.player.seekTo(this.state.currentVideo.startPosition);
         }
     }
 
@@ -117,6 +127,13 @@ class VideoPlayer extends React.Component<MyProps, MyState> {
                 }
             });
             await this.player.seekTo(this.state.currentVideo.startPosition);
+        } else {
+            await this.setState({
+                currentVideo: {
+                    ...this.state.scenarios[this.state.scenarios.length - 1]
+                }
+            });
+            await this.player.seekTo(this.state.currentVideo.startPosition);
         }
     }
     turnPlayerPause() {
@@ -125,6 +142,35 @@ class VideoPlayer extends React.Component<MyProps, MyState> {
                 playing: false
             }
         })
+    }
+
+    formHandler(e) {
+        e.preventDefault();
+        // console.log(e.target.elements[0].value);
+
+        this.setState({
+            scenarios: [
+                ...this.state.scenarios,
+                {
+                    src: e.target.elements[0].value ? e.target.elements[0].value : './src/videos/business.mp4',
+                    startPosition: e.target.elements[1].value ? e.target.elements[1].value : 0,
+                    soundLevel: e.target.elements[2].value ? e.target.elements[2].value : 0,
+                    duration: e.target.elements[3].value ? e.target.elements[3].value : 0,
+                    index: this.state.scenarios.length
+                }
+            ]
+        })
+    }
+
+    async deleteHandler(item) {
+        let scenariosWithoutDeleted = this.state.scenarios.filter(elem => elem != item).map((elem, index) => {
+            elem.index = index;
+            return elem;
+        });
+        await this.setState({
+            scenarios: scenariosWithoutDeleted
+        })
+        await this.changeCurrentScenario(this.state.scenarios[0]);
     }
 
     componentDidMount() {
@@ -139,6 +185,9 @@ class VideoPlayer extends React.Component<MyProps, MyState> {
         return (
             <div className="video-player__grid-list">
                 <div className="video-player__grid-item">
+                    <div className={`video-player__overlay ${this.state.playerState.playing ? '' : 'active'}`}>
+                        <h1 className="article video-player__article">Stopped/Paused</h1>
+                    </div>
                     <ReactPlayer
                         onEnded={this.turnPlayerNext.bind(this)}
                         ref={this.ref}
@@ -152,14 +201,15 @@ class VideoPlayer extends React.Component<MyProps, MyState> {
                 </div>
                 <div className="video-player__grid-item">
                     <h3 className="video-player__article">Scenario queue</h3>
-                    <VideoQueue 
-                    clickHandler={this.changeCurrentScenario.bind(this)} 
-                    scenarios={this.state.scenarios}
-                    current={this.state.currentVideo.index} />
+                    <VideoQueue
+                        clickHandler={this.changeCurrentScenario.bind(this)}
+                        deleteHandler={this.deleteHandler.bind(this)}
+                        scenarios={this.state.scenarios}
+                        current={this.state.currentVideo.index} />
                 </div>
                 <div className="video-player__grid-item">
                     <h3 className="video-player__article">Add scenario</h3>
-                    <VideoForm />
+                    <VideoForm formHandler={this.formHandler.bind(this)} index={this.state.scenarios.length} />
                 </div>
                 <div className="video-player__grid-item">
                     <VideoControls

@@ -1,11 +1,31 @@
 .video-queue {
-    &__list {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        &-item {
-            display: block;
-        }
-    }
+  &__list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    max-height: 50vh;
     
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #080817;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: rgba($color: #7775E1, $alpha: 0.8);
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+        background: rgba($color: #7775E1, $alpha: 1);
+    }
+
+    &-item {
+      display: block;
+    }
+  }
 }
