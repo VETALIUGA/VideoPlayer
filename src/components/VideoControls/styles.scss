@@ -1,0 +1,48 @@
+.video-controller{
+    &__wrap {
+        display: flex;
+        justify-content: space-evenly;
+    }
+    &__controls {
+        display: flex;
+        justify-content: center;
+    }
+    &__button {
+        margin: 1px;
+        border-radius: 3px;
+    }
+}
+
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 150px; /* Full-width */
+  height: 3px; /* Specified height */
+  background: #353377; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: 0.2s; /* 0.2 seconds transition on hover */
+  transition: opacity 0.2s;
+  &:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+  }
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 10px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #7775E1; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+    border-radius: 3px;
+  }
+  &::-moz-range-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 10px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #7775E1; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+    border-radius: 3px;
+  }
+}
