@@ -1,11 +1,14 @@
 import * as React from "react";
 import './styles.scss';
+// import { Slider } from '@material-ui/core';
 
 function VideoControls(props) {
     return (
         <div className="video-controller__wrap">
+            {/* <Slider value={props.windowParams.soundLevel} onChange={(event, value)=>props.volumeHandler(value)} aria-labelledby="continuous-slider" /> */}
             <div className="video-controller__volume">
-                <input type="range" min='0' max='100' value={props.windowParams.soundLevel} onChange={props.volumeHandler}/>
+                <span className="video-controller__text">Volume:</span>
+                <input type="range" min='0' max='100' value={props.windowParams.soundLevel} onChange={(event) => {props.volumeHandler(event.target.value)}} />
             </div>
             <div className="video-controller__controls">
                 <button onClick={props.turnPrev} className="button video-controller__button">Prev</button>

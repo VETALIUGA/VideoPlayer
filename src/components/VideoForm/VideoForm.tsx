@@ -2,67 +2,32 @@ import * as React from "react";
 import { Field, reduxForm } from 'redux-form';
 import './styles.scss';
 
-// function VideoForm(props) {
-//     return (
-//         // <form onSubmit={props.formHandler} className="video-form__form">
-//         //     {/* <label className="video-form__label">
-//         //         <span className="video-form__text">source:</span>
-//         //         <input type="url" className="video-form__input"/>
-//         //     </label> */}
-//         //     <label className="video-form__label">
-//         //         <span className="video-form__text">source:</span>
-//         //         <input onChange={props.uploadFile} type="file" className="video-form__input"/>
-//         //     </label>
-//         //     <label className="video-form__label">
-//         //         <span className="video-form__text">start on:</span>
-//         //         <input type="number" className="video-form__input"/>
-//         //     </label>
-//         //     <label className="video-form__label">
-//         //         <span className="video-form__text">sound level:</span>
-//         //         <input type="number" min="0" max="100" className="video-form__input"/>
-//         //     </label>
-//         //     <label className="video-form__label">
-//         //         <span className="video-form__text">duration:</span>
-//         //         <input type="number" className="video-form__input"/>
-//         //     </label>
-//         //     <label className="video-form__label">
-//         //         <input type="submit" value="add" className="video-form__input video-form__input--submit"/>
-//         //     </label>
-//         // </form>
-//     )
-// }
-let VideoForm = props => {
-    const { handleSubmit } = props
-    return <form onSubmit={handleSubmit}>
-        {/* <label className="video-form__label">
-        //         <span className="video-form__text">source:</span>
-        //         <input type="url" className="video-form__input"/>
-        //     </label> */}
-        <label className="video-form__label">
-            <span className="video-form__text">source:</span>
-            <input onChange={props.uploadFile} type="file" className="video-form__input" />
-        </label>
-        <label className="video-form__label">
-            <span className="video-form__text">start on:</span>
-            <input type="number" className="video-form__input" />
-        </label>
-        <label className="video-form__label">
-            <span className="video-form__text">sound level:</span>
-            <input type="number" min="0" max="100" className="video-form__input" />
-        </label>
-        <label className="video-form__label">
-            <span className="video-form__text">duration:</span>
-            <input type="number" className="video-form__input" />
-        </label>
-        <label className="video-form__label">
-            <input type="submit" value="add" className="video-form__input video-form__input--submit" />
-        </label>
+let VideoForm = (props) => {
+    const { handleSubmit } = props;
+    return <form className="video-form__grid" onSubmit={handleSubmit}>
+        <div className="video-form__item">
+            <label htmlFor="url" className="video-form__label">Url:</label>
+            <Field component='input' type='url' name="url" className="video-form__input" />
+        </div>
+        <div className="video-form__item">
+            <label htmlFor="startOn" className="video-form__label">Start on:</label>
+            <Field component='input' type='number' name="startOn" className="video-form__input" />
+        </div>
+        <div className="video-form__item">
+            <label htmlFor="soundLevel" className="video-form__label">Sound level:</label>
+            <Field component='input' type="number" min="0" max="100" name="soundLevel" className="video-form__input" />
+        </div>
+        <div className="video-form__item">
+            <label htmlFor="duration" className="video-form__label">Duration:</label>
+            <Field component='input' type="number" name="duration" className="video-form__input" />
+        </div>
+        <button type="submit" className="button video-form__submit">Add scenario</button>
     </form>
 }
 
 VideoForm = reduxForm({
     // a unique name for the form
-    form: 'contact'
-})(VideoForm)
+    form: 'add new scenario'
+})(VideoForm);
 
 export default VideoForm;

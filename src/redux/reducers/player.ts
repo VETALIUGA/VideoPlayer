@@ -2,23 +2,18 @@ import * as actionTypes from "../actionTypes";
 
 const initialState = {
   scenarios: [
-    {
-      src: '',
-      startPosition: 0,
-      soundLevel: 0,
-      duration: 0,
-      index: 0
-    }
+
   ],
   currentVideo: {
-    src: '',
+    src: 'string',
     startPosition: 0,
     soundLevel: 0,
     duration: 0,
-    index: 0,
+    index: 0
   },
   playerState: {
-    playing: true
+    playing: true,
+    loaded: false
   }
 };
 
@@ -28,6 +23,7 @@ export default function (state = initialState, action: any) {
       return {
         ...state,
         playerState: {
+          ...state.playerState,
           playing: !action.payload.playerState
         }
       };
@@ -36,6 +32,7 @@ export default function (state = initialState, action: any) {
       return {
         ...state,
         playerState: {
+          ...state.playerState,
           playing: false
         }
       };
@@ -66,6 +63,15 @@ export default function (state = initialState, action: any) {
         ...state,
         currentVideo: {
           ...action.payload.scenario
+        }
+      };
+    }
+    case actionTypes.CHANGE_LOAD_STATE: {
+      return {
+        ...state,
+        playerState: {
+          ...state.playerState,
+          loaded: action.payload.loadState
         }
       };
     }

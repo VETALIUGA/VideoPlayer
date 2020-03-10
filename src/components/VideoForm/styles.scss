@@ -1,56 +1,56 @@
 .video-form {
-    &__article {
-        font-size: 30px;
-        font-weight: 500;
-        color: #353377;
-        opacity: .5;
-        text-align: center;
-        height: 100%;
-        
+  &__article {
+    font-size: 30px;
+    font-weight: 500;
+    color: #353377;
+    opacity: 0.5;
+    text-align: center;
+    height: 100%;
+  }
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+  &__label {
+    width: 100%;
+    font-size: 14px;
+    color: #fff;
+    display: block;
+    padding: 0 5px;
+    box-sizing: border-box;
+  }
+  &__input {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 3px;
+    border: none;
+    background-color: #353377;
+    transition: 0.3s;
+    outline: none;
+    font-family: inherit;
+    font-size: 16px;
+    padding: 8px 15px;
+    color: #fff;
+    &:focus {
+      background-color: #514fa7;
     }
-    &__form {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 5px;
+  }
+  &__submit {
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin: 5px auto;
+    background-color: #514fa7;
+    padding: 5px 25px;
+    width: auto;
+    display: block;
+    margin-top: 20px;
+    cursor: pointer;
+    &:hover {
+      box-shadow: 0 0 0 2px #7775e1;
     }
-    &__label {
-        width: 100%;
-    }
-    &__text {
-        font-size: 14px;
-        color: #fff;
-        display: block;
-        padding: 0 5px;
-    }
-    &__input {
-        width: 100%;
-        box-sizing: border-box;
-        border-radius: 3px;
-        border: none;
-        background-color: #353377;
-        transition: .3s;
-        outline: none;
-        font-family: inherit;
-        font-size: 16px;
-        padding: 5px 15px;
-        color: #fff;
-        &:focus {
-            background-color: #514FA7;
-        }
-        &--submit {
-            text-transform: uppercase;
-            font-weight: 500;
-            margin: 5px auto;
-            background-color: #514FA7;
-            padding: 5px 25px;
-            width: auto;
-            display: block;
-            cursor: pointer;
-            &:hover {
-                box-shadow: 0 0 0 2px #7775E1;
-            }
-        }
-    }
+  }
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -61,10 +61,10 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
-  -moz-appearance:textfield;
+input[type="number"] {
+  -moz-appearance: textfield;
 }
-input[type=file] {
-    appearance: none;
-    -webkit-appearance: none;
+input[type="file"] {
+  appearance: none;
+  -webkit-appearance: none;
 }

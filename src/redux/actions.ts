@@ -57,4 +57,13 @@ export const changeScenarioStep = (scenario: object) => {
     }
 }
 
+export const changeLoadState = (loadState: boolean) => {
+    return {
+        type: actionTypes.CHANGE_LOAD_STATE,
+        payload: {
+            loadState
+        }
+    }
+}
+
 

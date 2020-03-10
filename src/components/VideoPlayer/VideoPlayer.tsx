@@ -6,7 +6,8 @@ import ReactPlayer from 'react-player';
 import VideoControls from '../VideoControls/VideoControls';
 import VideoForm from '../VideoForm/VideoForm';
 import { connect } from 'react-redux';
-import { changePlayerState, setPlayerZeroPos, setScenarios, setCurrentVideo, setVolumeLevel, changeScenarioStep } from '../../redux/actions';
+import { changePlayerState, setPlayerZeroPos, setScenarios, setCurrentVideo, setVolumeLevel, changeScenarioStep, changeLoadState } from '../../redux/actions';
+
 
 interface MyProps {
     onPlayerState(currentState: boolean);
@@ -15,10 +16,12 @@ interface MyProps {
     onCurrentVideoSet(scenario: object);
     onVolumeLevelSet(volume: number);
     onScenarioStepChange(scenario: object);
+    onLoadStateChange(loadState: boolean);
     playerState: {
         playing: boolean;
+        loaded: boolean;
     };
-    scenarios: object[];
+    scenarios: ScenarioItem[];
     currentVideo: {
         src: string;
         startPosition: number;
@@ -36,26 +39,6 @@ interface ScenarioItem {
     index: number;
 }
 
-// interface MyState {
-//     scenarios: {
-//         src: string;
-//         startPosition: number;
-//         soundLevel: number;
-//         duration: number;
-//         index: number;
-//     }[];
-//     currentVideo: {
-//         src: string;
-//         startPosition: number;
-//         soundLevel: number;
-//         duration: number;
-//         index: number,
-//     };
-//     playerState: {
-//         playing: boolean;
-//     }
-// }
-
 class VideoPlayer extends React.Component<MyProps> {
     private player: { seekTo: (currentPos: number) => void; };
     constructor(props) {
@@ -69,6 +52,7 @@ class VideoPlayer extends React.Component<MyProps> {
         });
         this.props.onScenariosSet(value);
         this.props.onCurrentVideoSet(this.props.scenarios[0]);
+        await this.props.onLoadStateChange(true)
     }
 
     async changeCurrentScenario(item): Promise<void> {
@@ -99,25 +83,24 @@ class VideoPlayer extends React.Component<MyProps> {
         this.props.onPlayerState(this.props.playerState.playing);
     }
 
-    // formHandler(event) {
-    //     event.preventDefault();
-    //     console.log(event);
-    //     this.setState({
-    //         scenarios: [
-    //             ...this.state.scenarios,
-    //             {
-    //                 src: event.target.elements[0].value ? event.target.elements[0].value : './src/videos/business.mp4',
-    //                 startPosition: event.target.elements[1].value ? event.target.elements[1].value : 0,
-    //                 soundLevel: event.target.elements[2].value ? event.target.elements[2].value : 0,
-    //                 duration: event.target.elements[3].value ? event.target.elements[3].value : 0,
-    //                 index: this.state.scenarios.length
-    //             }
-    //         ]
-    //     })
-    // }
+    formHandler(data) {
+        console.log(data);
+        // this.setState({
+        //     scenarios: [
+        //         ...this.state.scenarios,
+        //         {
+        //             src: event.target.elements[0].value ? event.target.elements[0].value : './src/videos/business.mp4',
+        //             startPosition: event.target.elements[1].value ? event.target.elements[1].value : 0,
+        //             soundLevel: event.target.elements[2].value ? event.target.elements[2].value : 0,
+        //             duration: event.target.elements[3].value ? event.target.elements[3].value : 0,
+        //             index: this.state.scenarios.length
+        //         }
+        //     ]
+        // })
+    }
 
-    volumeHandler(event) {
-        this.props.onVolumeLevelSet(event.target.value);
+    volumeHandler(value) {
+        this.props.onVolumeLevelSet(value);
     }
 
     async deleteHandler(item: ScenarioItem) {
@@ -179,6 +162,7 @@ class VideoPlayer extends React.Component<MyProps> {
                 <div className="video-player__grid-item">
                     <h3 className="video-player__article">Scenario queue</h3>
                     <VideoQueue
+                        isLoading={this.props.playerState.loaded}
                         clickHandler={this.changeCurrentScenario.bind(this)}
                         deleteHandler={this.deleteHandler.bind(this)}
                         scenarios={this.props.scenarios}
@@ -188,9 +172,9 @@ class VideoPlayer extends React.Component<MyProps> {
                 <div className="video-player__grid-item">
                     <h3 className="video-player__article">Add scenario</h3>
                     <VideoForm
-                        uploadFile={this.uploadFile.bind(this)}
-                        // formHandler={this.formHandler.bind(this)}
-                        index={this.props.scenarios.length}
+                        // uploadFile={this.uploadFile.bind(this)}
+                        onSubmit={this.formHandler}
+                        // index={this.props.scenarios.length}
                     />
                 </div>
                 <div className="video-player__grid-item">
@@ -224,7 +208,8 @@ const mapDispatchToProps = dispatch => {
         onScenariosSet: (scenariosArr: object[]) => dispatch(setScenarios(scenariosArr)),
         onCurrentVideoSet: (scenario: object) => dispatch(setCurrentVideo(scenario)),
         onVolumeLevelSet: (volume: number) => dispatch(setVolumeLevel(volume)),
-        onScenarioStepChange: (scenario: object) => dispatch(changeScenarioStep(scenario))
+        onScenarioStepChange: (scenario: object) => dispatch(changeScenarioStep(scenario)),
+        onLoadStateChange: (loadState: boolean) => dispatch(changeLoadState(loadState))
     }
 }
 
