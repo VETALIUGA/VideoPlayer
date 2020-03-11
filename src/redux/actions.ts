@@ -1,4 +1,5 @@
 import * as actionTypes from "./actionTypes";
+import firebase from "../FireBase";
 
 export const changePlayerState = (playerState: boolean) => {
     return {
@@ -44,7 +45,7 @@ export const setVolumeLevel = (volume: number) => {
         },
         meta: {
             throttle: 50
-         }
+        }
     }
 }
 
@@ -65,5 +66,29 @@ export const changeLoadState = (loadState: boolean) => {
         }
     }
 }
+
+export const asyncGetScenarios = () => {
+    return async dispatch => {
+        const dbRef = await firebase.database().ref().once('value');
+        const value = await dbRef.val().items;
+        await value.map((item: any, index: number) => {
+            item.index = index;
+            const video = document.createElement('video');
+            video.src = item.src;
+            video.addEventListener('loadedmetadata', () => {
+                item.duration = Math.round(video.duration);
+                console.log(`currentValue: ${item.duration}`);
+            });
+        });
+        await dispatch({
+            type: actionTypes.GET_SCENARIOS_ASYNC,
+            payload: {
+                scenarios: value
+            }
+        });
+    }
+}
+
+
 
 

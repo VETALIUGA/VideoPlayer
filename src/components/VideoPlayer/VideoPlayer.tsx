@@ -6,7 +6,7 @@ import ReactPlayer from 'react-player';
 import VideoControls from '../VideoControls/VideoControls';
 import VideoForm from '../VideoForm/VideoForm';
 import { connect } from 'react-redux';
-import { changePlayerState, setPlayerZeroPos, setScenarios, setCurrentVideo, setVolumeLevel, changeScenarioStep, changeLoadState } from '../../redux/actions';
+import { changePlayerState, setPlayerZeroPos, setScenarios, setCurrentVideo, setVolumeLevel, changeScenarioStep, changeLoadState, asyncGetScenarios } from '../../redux/actions';
 
 
 interface MyProps {
@@ -17,6 +17,7 @@ interface MyProps {
     onVolumeLevelSet(volume: number);
     onScenarioStepChange(scenario: object);
     onLoadStateChange(loadState: boolean);
+    onGetScenarios();
     playerState: {
         playing: boolean;
         loaded: boolean;
@@ -47,12 +48,19 @@ class VideoPlayer extends React.Component<MyProps> {
     private async getScenario() {
         let dbRef = await firebase.database().ref().once('value');
         let value = await dbRef.val().items;
-        value.map((item: { index: number }, index: number) => {
-            item.index = index
+        value.map((item: ScenarioItem, index: number) => {
+            item.index = index;
+            const video = document.createElement('video');
+            video.src = item.src;
+            video.currentTime = 9999;
+            video.onseeked = () => {
+                item.duration = Math.round(video.duration);
+                
+            }
         });
         this.props.onScenariosSet(value);
         this.props.onCurrentVideoSet(this.props.scenarios[0]);
-        await this.props.onLoadStateChange(true)
+        await this.props.onLoadStateChange(true);
     }
 
     async changeCurrentScenario(item): Promise<void> {
@@ -70,7 +78,6 @@ class VideoPlayer extends React.Component<MyProps> {
             await this.props.onScenarioStepChange(this.props.scenarios[this.props.currentVideo.index + 1]);
             await this.player.seekTo(this.props.currentVideo.startPosition);
         }
-
     }
 
     async turnPlayerPrev(): Promise<void> {
@@ -132,9 +139,11 @@ class VideoPlayer extends React.Component<MyProps> {
         // })
     }
 
-    componentDidMount(): void {
-        this.getScenario();
-        
+    async componentDidMount() {
+        // this.getScenario();
+        await this.props.onGetScenarios();
+        await this.props.onCurrentVideoSet(this.props.scenarios[0]);
+        await this.props.onLoadStateChange(true);
     }
 
     ref = (player: any) => {
@@ -174,7 +183,7 @@ class VideoPlayer extends React.Component<MyProps> {
                     <VideoForm
                         // uploadFile={this.uploadFile.bind(this)}
                         onSubmit={this.formHandler}
-                        // index={this.props.scenarios.length}
+                    // index={this.props.scenarios.length}
                     />
                 </div>
                 <div className="video-player__grid-item">
@@ -209,7 +218,8 @@ const mapDispatchToProps = dispatch => {
         onCurrentVideoSet: (scenario: object) => dispatch(setCurrentVideo(scenario)),
         onVolumeLevelSet: (volume: number) => dispatch(setVolumeLevel(volume)),
         onScenarioStepChange: (scenario: object) => dispatch(changeScenarioStep(scenario)),
-        onLoadStateChange: (loadState: boolean) => dispatch(changeLoadState(loadState))
+        onLoadStateChange: (loadState: boolean) => dispatch(changeLoadState(loadState)),
+        onGetScenarios: () => dispatch(asyncGetScenarios())
     }
 }
 

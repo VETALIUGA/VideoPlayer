@@ -75,6 +75,12 @@ export default function (state = initialState, action: any) {
         }
       };
     }
+    case actionTypes.GET_SCENARIOS_ASYNC: {
+      return {
+        ...state,
+        scenarios: action.payload.scenarios
+      };
+    }
     default:
       return state;
   }

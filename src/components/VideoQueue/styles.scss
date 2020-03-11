@@ -5,9 +5,10 @@
     padding: 0;
     overflow-y: auto;
     max-height: 50vh;
+    border-radius: 3px;
     
     &::-webkit-scrollbar {
-      width: 10px;
+      width: 5px;
     }
 
     &::-webkit-scrollbar-track {
