@@ -41,7 +41,7 @@ interface ScenarioItem {
 }
 
 class VideoPlayer extends React.Component<MyProps> {
-    private player: { seekTo: (currentPos: number) => void; };
+    private player: { seekTo: (currentPos: number) => void };
     constructor(props) {
         super(props);
     }
@@ -55,7 +55,7 @@ class VideoPlayer extends React.Component<MyProps> {
             video.currentTime = 9999;
             video.onseeked = () => {
                 item.duration = Math.round(video.duration);
-                
+
             }
         });
         this.props.onScenariosSet(value);
@@ -139,11 +139,11 @@ class VideoPlayer extends React.Component<MyProps> {
         // })
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         // this.getScenario();
-        await this.props.onGetScenarios();
-        await this.props.onCurrentVideoSet(this.props.scenarios[0]);
-        await this.props.onLoadStateChange(true);
+        this.props.onGetScenarios();
+        // this.props.onCurrentVideoSet(this.props.scenarios[0]);
+        // this.props.onLoadStateChange(true);
     }
 
     ref = (player: any) => {
@@ -154,7 +154,7 @@ class VideoPlayer extends React.Component<MyProps> {
         return (
             <div className="video-player__grid-list">
                 <div className="video-player__grid-item">
-                    <div className={`video-player__overlay ${this.props.playerState ? '' : 'active'}`}>
+                    <div className={`video-player__overlay ${this.props.playerState.playing ? '' : 'active'}`}>
                         <h1 className="article video-player__article">Stopped/Paused</h1>
                     </div>
                     <ReactPlayer
@@ -189,6 +189,7 @@ class VideoPlayer extends React.Component<MyProps> {
                 <div className="video-player__grid-item">
                     <VideoControls
                         windowParams={this.props.currentVideo}
+                        queueLength = {this.props.scenarios.length}
                         volumeHandler={this.volumeHandler.bind(this)}
                         turnOn={this.togglePlayerState.bind(this)}
                         turnPause={this.togglePlayerState.bind(this)}

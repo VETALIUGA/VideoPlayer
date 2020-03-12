@@ -71,21 +71,33 @@ export const asyncGetScenarios = () => {
     return async dispatch => {
         const dbRef = await firebase.database().ref().once('value');
         const value = await dbRef.val().items;
-        await value.map((item: any, index: number) => {
+        value.map((item: any, index: number) => {
             item.index = index;
             const video = document.createElement('video');
             video.src = item.src;
             video.addEventListener('loadedmetadata', () => {
                 item.duration = Math.round(video.duration);
-                console.log(`currentValue: ${item.duration}`);
+                dispatch({
+                    type: actionTypes.GET_SCENARIOS_ASYNC,
+                    payload: {
+                        scenarios: value
+                    }
+                });
+                dispatch({
+                    type: actionTypes.SET_CURRENT_VIDEO,
+                    payload: {
+                        scenario: value[0]
+                    }
+                });
+                dispatch({
+                    type: actionTypes.CHANGE_LOAD_STATE,
+                    payload: {
+                        loadState: true
+                    }
+                });
             });
         });
-        await dispatch({
-            type: actionTypes.GET_SCENARIOS_ASYNC,
-            payload: {
-                scenarios: value
-            }
-        });
+        
     }
 }
 

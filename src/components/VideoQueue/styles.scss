@@ -4,7 +4,7 @@
     margin: 0;
     padding: 0;
     overflow-y: auto;
-    max-height: 50vh;
+    overflow-x: hidden;
     border-radius: 3px;
     
     &::-webkit-scrollbar {
@@ -28,5 +28,29 @@
     &-item {
       display: block;
     }
+  }
+  &__icon {
+    color: #fff;
+    font-size: 30px;
+    animation: moveIcon 1.5s infinite;
+    &-wrap {
+      width: 100%;
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
+@keyframes moveIcon {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(30px);
+  }
+  100% {
+    transform: translateY(0px);
   }
 }

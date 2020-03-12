@@ -17,10 +17,10 @@ let VideoForm = (props) => {
             <label htmlFor="soundLevel" className="video-form__label">Sound level:</label>
             <Field component='input' type="number" min="0" max="100" name="soundLevel" className="video-form__input" />
         </div>
-        <div className="video-form__item">
+        {/* <div className="video-form__item">
             <label htmlFor="duration" className="video-form__label">Duration:</label>
             <Field component='input' type="number" name="duration" className="video-form__input" />
-        </div>
+        </div> */}
         <button type="submit" className="button video-form__submit">Add scenario</button>
     </form>
 }

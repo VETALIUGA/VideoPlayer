@@ -1,7 +1,8 @@
 import * as React from "react";
 import './styles.scss';
 import QueueItem from "../QueueItem/QueueItem";
-// import { CircularProgress } from "@material-ui/core";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCloudDownloadAlt} from '@fortawesome/free-solid-svg-icons';
 
 function VideoQueue(props) {
     return (
@@ -22,7 +23,8 @@ function VideoQueue(props) {
                 }
             </ul>
             :
-            <div>
+            <div className="video-queue__icon-wrap">
+                <FontAwesomeIcon className="video-queue__icon" icon={faCloudDownloadAlt}/>
             </div>
     )
 }

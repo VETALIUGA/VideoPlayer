@@ -3,6 +3,7 @@
         margin-bottom: 2px;
         transition: .3s;
         padding: 5px 10px;
+        position: relative;
         &.active {
             box-shadow: 0 0 0 2px #7775E1;
             background-color: #514FA7;
@@ -13,6 +14,8 @@
         grid-template-columns: 30px 1fr 1fr auto;
         align-items: center;
         gap: 15px;
+        position: relative;
+        z-index: 10;
     }
     &__source {
         color: #fff;
@@ -33,6 +36,7 @@
             width: 1px;
             display: block;
             background-color: #7775E1;
+            background-position-x: 0%;
         }
         &-item {
             display: block;
@@ -44,14 +48,42 @@
         width: 100%;
         display: block;
     }
+    &__line {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 100%;
+        background-color: #7775E1;
+        background-size: contain;
+        transition: width .5s;
+        opacity: 0.3;
+        box-sizing: border-box;
+        border-right: 2px solid #fff;
+        // &:before {
+        //     content: '';
+        //     display: block;
+        //     position: absolute;
+        //     background-color: darkred;
+        //     width: 15px;
+        //     height: 15px;
+        //     top: 50%;
+        //     right: 0;
+        //     transform: translate(50%, -50%) rotate(-45deg);
+        //     transition-delay: .3;
+        //     transition-duration: .3s;
+        //     transition-property: right;
+        // }
+    }
     &__delete {
         border-radius: 50px;
-        padding: 5px;
-        &-icon {
-            width: 100%;
-            max-width: 20px;
-            display: block;
-        }
+        padding: 5px 6px;
+        line-height: 1;
+        font-size: 16px;
+        // &-icon {
+        //     width: 100%;
+        //     max-width: 20px;
+        //     display: block;
+        // }
         &:hover {
             box-shadow: 0 0 0 2px #7775E1;
             background-color: darkred;
