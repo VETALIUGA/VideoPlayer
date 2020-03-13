@@ -81,6 +81,15 @@ export default function (state = initialState, action: any) {
         scenarios: action.payload.scenarios
       };
     }
+    case actionTypes.ADD_NEW_SCENARIO: {
+      return {
+        ...state,
+        scenarios: [
+          ...state.scenarios,
+          action.payload.scenario
+        ]
+      };
+    }
     default:
       return state;
   }

@@ -67,37 +67,60 @@ export const changeLoadState = (loadState: boolean) => {
     }
 }
 
+export const addNewScenario = () => {
+    return (dispatch, getState) => {
+        const state = getState();
+        dispatch({
+            type: actionTypes.ADD_NEW_SCENARIO,
+            payload: {
+                state
+            }
+        })
+    }
+    // return {
+    //     type: actionTypes.ADD_NEW_SCENARIO,
+    //     payload: {
+    //         scenario
+    //     }
+    // } 
+}
+
 export const asyncGetScenarios = () => {
-    return async dispatch => {
-        const dbRef = await firebase.database().ref().once('value');
-        const value = await dbRef.val().items;
-        value.map((item: any, index: number) => {
-            item.index = index;
-            const video = document.createElement('video');
-            video.src = item.src;
-            video.addEventListener('loadedmetadata', () => {
-                item.duration = Math.round(video.duration);
-                dispatch({
-                    type: actionTypes.GET_SCENARIOS_ASYNC,
-                    payload: {
-                        scenarios: value
-                    }
+    return dispatch => {
+        firebase.database().ref().once('value')
+            .then(dbRef => dbRef.val().items)
+            .then(scenarios => {
+                scenarios.map((item: any, index: number) => {
+                    item.index = index;
+                    const video = document.createElement('video');
+                    video.src = item.src;
+                    video.addEventListener('loadedmetadata', () => {
+                        item.duration = Math.round(video.duration);
+                        dispatch({
+                            type: actionTypes.GET_SCENARIOS_ASYNC,
+                            payload: {
+                                scenarios: scenarios
+                            }
+                        });
+                        if (scenarios.length - 1 == index) {
+
+                            dispatch({
+                                type: actionTypes.SET_CURRENT_VIDEO,
+                                payload: {
+                                    scenario: scenarios[0]
+                                }
+                            });
+                            dispatch({
+                                type: actionTypes.CHANGE_LOAD_STATE,
+                                payload: {
+                                    loadState: true
+                                }
+                            });
+                        }
+                    });
                 });
-                dispatch({
-                    type: actionTypes.SET_CURRENT_VIDEO,
-                    payload: {
-                        scenario: value[0]
-                    }
-                });
-                dispatch({
-                    type: actionTypes.CHANGE_LOAD_STATE,
-                    payload: {
-                        loadState: true
-                    }
-                });
-            });
-        });
-        
+            })
+            .catch(() => console.log('error'));
     }
 }
 

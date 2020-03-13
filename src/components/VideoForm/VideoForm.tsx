@@ -2,12 +2,16 @@ import * as React from "react";
 import { Field, reduxForm } from 'redux-form';
 import './styles.scss';
 
-let VideoForm = (props) => {
-    const { handleSubmit } = props;
+// const onSubmit = values => {
+//     alert(JSON.stringify(values));
+// }
+
+const VideoForm = (props) => {
+    const {handleSubmit} = props;
     return <form className="video-form__grid" onSubmit={handleSubmit}>
         <div className="video-form__item">
             <label htmlFor="url" className="video-form__label">Url:</label>
-            <Field component='input' type='url' name="url" className="video-form__input" />
+            <Field component='input' type='text' name="url" className="video-form__input" />
         </div>
         <div className="video-form__item">
             <label htmlFor="startOn" className="video-form__label">Start on:</label>
@@ -25,9 +29,6 @@ let VideoForm = (props) => {
     </form>
 }
 
-VideoForm = reduxForm({
-    // a unique name for the form
+export default reduxForm({
     form: 'add new scenario'
 })(VideoForm);
-
-export default VideoForm;

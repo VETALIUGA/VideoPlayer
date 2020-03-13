@@ -6,8 +6,22 @@ import ReactPlayer from 'react-player';
 import VideoControls from '../VideoControls/VideoControls';
 import VideoForm from '../VideoForm/VideoForm';
 import { connect } from 'react-redux';
-import { changePlayerState, setPlayerZeroPos, setScenarios, setCurrentVideo, setVolumeLevel, changeScenarioStep, changeLoadState, asyncGetScenarios } from '../../redux/actions';
+import { changePlayerState, setPlayerZeroPos, setScenarios, setCurrentVideo, setVolumeLevel, changeScenarioStep, changeLoadState, asyncGetScenarios, addNewScenario } from '../../redux/actions';
 
+// interface MyState {
+//     playerState: {
+//         playing: boolean;
+//         loaded: boolean;
+//     };
+//     scenarios: ScenarioItem[];
+//     currentVideo: {
+//         src: string;
+//         startPosition: number;
+//         soundLevel: number;
+//         duration: number;
+//         index: number,
+//     }
+// }
 
 interface MyProps {
     onPlayerState(currentState: boolean);
@@ -18,6 +32,7 @@ interface MyProps {
     onScenarioStepChange(scenario: object);
     onLoadStateChange(loadState: boolean);
     onGetScenarios();
+    onAddNewScenario();
     playerState: {
         playing: boolean;
         loaded: boolean;
@@ -92,6 +107,8 @@ class VideoPlayer extends React.Component<MyProps> {
 
     formHandler(data) {
         console.log(data);
+        this.props.onAddNewScenario();
+        // data.url
         // this.setState({
         //     scenarios: [
         //         ...this.state.scenarios,
@@ -144,6 +161,7 @@ class VideoPlayer extends React.Component<MyProps> {
         this.props.onGetScenarios();
         // this.props.onCurrentVideoSet(this.props.scenarios[0]);
         // this.props.onLoadStateChange(true);
+        
     }
 
     ref = (player: any) => {
@@ -181,15 +199,15 @@ class VideoPlayer extends React.Component<MyProps> {
                 <div className="video-player__grid-item">
                     <h3 className="video-player__article">Add scenario</h3>
                     <VideoForm
-                        // uploadFile={this.uploadFile.bind(this)}
+                        //  uploadFile={this.uploadFile.bind(this)}
                         onSubmit={this.formHandler}
-                    // index={this.props.scenarios.length}
+                    //  index={this.props.scenarios.length}
                     />
                 </div>
                 <div className="video-player__grid-item">
                     <VideoControls
                         windowParams={this.props.currentVideo}
-                        queueLength = {this.props.scenarios.length}
+                        queueLength={this.props.scenarios.length}
                         volumeHandler={this.volumeHandler.bind(this)}
                         turnOn={this.togglePlayerState.bind(this)}
                         turnPause={this.togglePlayerState.bind(this)}
@@ -203,7 +221,7 @@ class VideoPlayer extends React.Component<MyProps> {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         scenarios: state.player.scenarios,
         playerState: state.player.playerState,
@@ -220,7 +238,9 @@ const mapDispatchToProps = dispatch => {
         onVolumeLevelSet: (volume: number) => dispatch(setVolumeLevel(volume)),
         onScenarioStepChange: (scenario: object) => dispatch(changeScenarioStep(scenario)),
         onLoadStateChange: (loadState: boolean) => dispatch(changeLoadState(loadState)),
+        onAddNewScenario: () => dispatch(addNewScenario()),
         onGetScenarios: () => dispatch(asyncGetScenarios())
+         
     }
 }
 
